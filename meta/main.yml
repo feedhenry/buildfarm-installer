@@ -4,7 +4,7 @@ galaxy_info:
   description: "Roles for deploying the Feedhenry Build-Farm-2"
   company: Feedhenry
   license: "license (Apache 2)"
-  min_ansible_version: 1.2
+  min_ansible_version: 2.2.0
   platforms:
   - name: fedora
     version:
