@@ -8,4 +8,4 @@ galaxy_info:
   platforms:
   - name: fedora
     version:
-    - 25
+      - 25
