@@ -1,2 +1,9 @@
 ---
 galaxy_info:
+author: Feedhenry
+  description: Roles for deploying the Feedhenry Build-Farm-2
+  company: Feedhenry
+
+  license: license (Apache 2)
+
+  min_ansible_version: 1.2
