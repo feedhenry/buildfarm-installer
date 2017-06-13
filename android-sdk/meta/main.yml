@@ -1,9 +1,10 @@
+---
 galaxy_info:
   author: Feedhenry
-  description: Role for deploying saving an Android SDK and platform versions to a PV in OpenShift
+  description: "Role for deploying saving an Android SDK and platform versions to a PV in OpenShift"
   company: Feedhenry
 
-  license: license (Apache 2)
+  license: "license (Apache 2)"
 
   min_ansible_version: 1.2
 
