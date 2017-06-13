@@ -5,3 +5,7 @@ galaxy_info:
   company: Feedhenry
   license: "license (Apache 2)"
   min_ansible_version: 1.2
+  platforms:
+  - name: fedora
+    version:
+    - 25
