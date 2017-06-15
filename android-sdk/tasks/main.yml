@@ -68,11 +68,11 @@
   become: true
   failed_when: "'Traceback' in output.stdout"
 
-- debug: var=output
-
 - name: 
-  set_fact: accept='yes'
+  set_fact: accept=true
   when: "'Accept?' in output.stdout"
+
+- debug: var=accept
 
 - pause:
     prompt: "Licences are up to date. Hit enter to continue with the playbook "
@@ -80,11 +80,11 @@
 
 - pause:
     prompt:  "{{ output.stdout }} Hit enter to accept the Licence or hit Ctrl _c and 'A' to reject and cancel the installation "
-  when: "accept is defined and 'yes' in {{ accept }}" 
+  when: accept is defined and accept
 
 - name: "Accepting the licence"
-  command: "oc rsh {{ android_sdk_podname }} ANSWER=yes androidctl sync /opt/tools/sample.cfg"
-  when: "accept is defined and 'yes' in {{ accept }}" 
+  command: "oc rsh {{ android_sdk_podname }} androidctl -y sync /opt/tools/sample.cfg"
+  when: accept is defined and accept
 -
   name: "Get jenkins url"
   shell: "oc get routes | grep jenkins | awk '{print $2}'"
