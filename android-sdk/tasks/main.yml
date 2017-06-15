@@ -65,18 +65,26 @@
   name: "Sync Android Platform Versions via config"
   command: "oc rsh {{ android_sdk_podname }} androidctl sync /opt/tools/sample.cfg"
   register: output
+  become: true
+  failed_when: "'Traceback' in output.stdout"
+
+- debug: var=output
+
+- name: 
+  set_fact: accept='yes'
+  when: "'Accept?' in output.stdout"
+
+- pause:
+    prompt: "Licences are up to date. Hit enter to continue with the playbook "
+  when: accept is undefined
 
 - pause:
     prompt:  "{{ output.stdout }} Hit enter to accept the Licence or hit Ctrl _c and 'A' to reject and cancel the installation "
-    when: "'Done' not in output.stdout"
-
--
-  debug: var=output
-
+  when: "accept is defined and 'yes' in {{ accept }}" 
 
 - name: "Accepting the licence"
-  shell: "oc rsh {{ android_sdk_podname }} androidctl sync /opt/tools/sample.cfg"
-  when: "'Done' not in output.stdout"
+  command: "oc rsh {{ android_sdk_podname }} ANSWER=yes androidctl sync /opt/tools/sample.cfg"
+  when: "accept is defined and 'yes' in {{ accept }}" 
 -
   name: "Get jenkins url"
   shell: "oc get routes | grep jenkins | awk '{print $2}'"
