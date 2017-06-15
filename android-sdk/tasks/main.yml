@@ -12,15 +12,6 @@
 
 
 -
-  name: "Create a volume to host the Android SDK"
-  command: "oc create -f {{ buildfarm_templates_dir }}/android-sdk-sample-pv.json"
-  become: true
-  register: volume_result
-  failed_when:
-    - volume_result.stderr and volume_result.stderr != '' and 'already exists' not in volume_result.stderr
-  changed_when: volume_result.rc == 0 or (volume_result.rc == 1 and 'created' in volume_result.stdout)
-
--
   name: "Deploy the Android SDK image"
   command: "oc new-app -f {{ buildfarm_templates_dir }}/android-sdk-persistent-template.json"
   register: android_create_result
@@ -91,8 +82,12 @@
   register: jenkins_url
 
 -
+  name: "Get jenkins pod"
+  shell: "oc get pods --namespace={{ project_name }} | grep jenkins | awk '{print$1}'"
+  register: jenkins_podname
+-
   name: "Get jenkins password"
-  shell: 'oc env pod jenkins-1-97hf7 --list | grep JENKINS_PASSWORD | tr -d JENKINS_PASSWORD='
+  shell: 'oc env pod {{ jenkins_podname }} --list | grep JENKINS_PASSWORD | tr -d JENKINS_PASSWORD='
   register: jenkins_password
 
 -
