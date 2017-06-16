@@ -2,12 +2,12 @@
 ## setup default template directories
 -
   name: "Set default template directory"
-  set_fact: buildfarm_templates_dir="/opt/rhmap/{{ rhmap_version }}/templates/buildfarm"
+  set_fact: buildfarm_templates_dir="/opt/rhmap/{{ rhmap_version }}/buildfarm/templates"
   when: buildfarm_templates_dir is not defined
 
 -
   name: "Set default config directory"
-  set_fact: config_file_dir="/opt/rhmap/{{ rhmap_version }}/templates/buildfarm"
+  set_fact: config_file_dir="/opt/rhmap/{{ rhmap_version }}/rhmap-installer/roles/feedhenry.buildfarm-installer/templates"
   when: config_file_dir is not defined
 
 
@@ -41,7 +41,7 @@
 
 -
   name: "Copy the Android SDK config file to the container"
-  command: "oc cp {{ config_file_dir }}/sample.cfg {{ android_sdk_podname }}:/opt/tools/sample.cfg"
+  command: "oc cp {{ config_file_dir }}/sample_cfg.j2 {{ android_sdk_podname }}:/opt/tools/sample.cfg"
   become: true
   register: output
   failed_when: output.stdout != ""
